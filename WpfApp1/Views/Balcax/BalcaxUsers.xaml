@@ -1,0 +1,251 @@
+<UserControl x:Class="WpfApp1.Views.UserControls.BalcaxUsers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="840">
+
+    <UserControl.Resources>
+        <!-- Botón de acción genérico -->
+        <Style x:Key="BtnAccion" TargetType="Button">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BtnLimpiar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#6C757D"/>
+            <Setter Property="BorderBrush" Value="#5A6268"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <!-- Botón Buscar (azul) -->
+        <Style x:Key="BtnBuscar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#0078D4"/>
+            <Setter Property="BorderBrush" Value="#0078D4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Botón Agregar (verde) -->
+        <Style x:Key="BtnAgregar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#28A745"/>
+            <Setter Property="BorderBrush" Value="#218838"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Botón Editar/Actualizar (naranja) -->
+        <Style x:Key="BtnActualizar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#FFC107"/>
+            <Setter Property="BorderBrush" Value="#E0A800"/>
+            <Setter Property="Foreground" Value="#212529"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Botón Eliminar (rojo salmón) -->
+        <Style x:Key="BtnEliminar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#DC3545"/>
+            <Setter Property="BorderBrush" Value="#C82333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Botón Permiso Vista (Morado / Púrpura) -->
+        <Style x:Key="BtnPermiso" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#6F42C1"/>
+            <Setter Property="BorderBrush" Value="#5A32A3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Botón Deseleccionar (gris) -->
+        <Style x:Key="BtnDeseleccionar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#B0B8C0"/>
+            <Setter Property="BorderBrush" Value="#909AA4"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Grupo Búsqueda -->
+            <RowDefinition Height="*"/>     <!-- DataGrid -->
+            <RowDefinition Height="Auto"/>  <!-- Acciones -->
+        </Grid.RowDefinitions>
+
+        <!-- ==================== GRUPO BÚSQUEDA ==================== -->
+        <GroupBox Grid.Row="0" Header="Búsqueda de Usuario Balcax" Margin="6"
+                  Padding="8,6" BorderBrush="#CCCCCC">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>   <!-- ComboBox Filtro -->
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="*"/>      <!-- TextBox Búsqueda -->
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>   <!-- Botón Limpiar -->
+                    <ColumnDefinition Width="6"/>
+                    <ColumnDefinition Width="Auto"/>   <!-- Botón Buscar -->
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Buscar por:" FontSize="11" Foreground="#555555" Margin="0,0,0,2"/>
+                    <ComboBox x:Name="cmbFiltro" Width="120" Height="26" SelectedIndex="0" VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="General"/>
+                        <ComboBoxItem Content="Id"/>
+                        <ComboBoxItem Content="Nombre"/>
+                        <ComboBoxItem Content="Apellidos"/>
+                        <ComboBoxItem Content="Correo"/>
+                        <ComboBoxItem Content="Telefono"/>
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Valor de búsqueda:" FontSize="11" Foreground="#555555" Margin="0,0,0,2"/>
+                    <TextBox x:Name="txtBusqueda" Height="26" VerticalContentAlignment="Center" 
+                             Padding="4,3" BorderBrush="#CCCCCC" KeyDown="TxtBusqueda_KeyDown"/>
+                </StackPanel>
+
+                <Button x:Name="btnLimpiar" Grid.Column="4" Content="Limpiar" Style="{StaticResource BtnLimpiar}"
+                        VerticalAlignment="Bottom" Height="26" Width="80" Click="BtnLimpiar_Click"/>
+
+                <Button x:Name="btnBuscar" Grid.Column="6" Content="🔎 Buscar" Style="{StaticResource BtnBuscar}"
+                        VerticalAlignment="Bottom" Height="26" Width="90" Click="BtnBuscar_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- ==================== DATAGRID DE RESULTADOS ==================== -->
+        <DataGrid x:Name="dgvUsuarios" Grid.Row="1"
+                Margin="6,0,6,0"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                IsReadOnly="True"
+                SelectionMode="Single"
+                SelectionUnit="FullRow"
+                GridLinesVisibility="Horizontal"
+                HeadersVisibility="All"
+                RowHeaderWidth="35"
+                LoadingRow="dgvUsuarios_LoadingRow"
+                Background="White"
+                RowBackground="White"
+                AlternatingRowBackground="#F7F9FC"
+                BorderBrush="#CCCCCC"
+                BorderThickness="1"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto">
+
+            <!-- Estilo para mostrar el número centrado en el RowHeader -->
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="Width" Value="35"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Background" Value="#F0F2F5"/>
+                    <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Foreground" Value="#555555"/>
+                </Style>
+            </DataGrid.RowHeaderStyle>
+
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#E2EDF8"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#333333"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#EAEAEA"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="#333333"/>
+            </DataGrid.Resources>
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#F0F0F0"/>
+                    <Setter Property="Foreground" Value="#333333"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="8,5"/>
+                    <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                    <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="60"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="200"/>
+                <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}" Width="200"/>
+                <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="250"/>
+                <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="100"/>
+                <DataGridTextColumn Header="Habilitado" Binding="{Binding Habilitado}" Width="80"/>
+                <DataGridTextColumn Header="Token" Binding="{Binding Token}" Width="500"/>
+                <DataGridTextColumn Header="Contraseña" Binding="{Binding Contrasena}" Width="500"/>
+                <DataGridTextColumn Header="Avatar" Binding="{Binding Avatar}" Width="100"/>
+                <DataGridTextColumn Header="Id Empresa" Binding="{Binding IdEmpresa}" Width="100"/>
+                <DataGridTextColumn Header="Registrado" Binding="{Binding Registrado, StringFormat='\{0:yyyy-MM-dd HH:mm:s\}'}" Width="150"/>
+                <DataGridTextColumn Header="F. Creación" Binding="{Binding UsuarioFechaCreacion, StringFormat='\{0:yyyy-MM-dd HH:mm:s\}'}" Width="150"/>
+                <DataGridTextColumn Header="F. Actualización" Binding="{Binding UsuarioFechaActualizacion, StringFormat='\{0:yyyy-MM-dd HH:mm:s\}'}" Width="150"/>
+                <DataGridTextColumn Header="F. Eliminación" Binding="{Binding UsuarioFechaEliminacion, StringFormat='\{0:yyyy-MM-dd HH:mm:s\}'}" Width="150"/>
+                <DataGridTextColumn Header="Fk Modificado" Binding="{Binding UsuarioFkModificado}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- ==================== BARRA DE ACCIONES Y ESTADO ==================== -->
+        <Border Grid.Row="2" Background="#F5F6F8" BorderBrush="#DDDDDD"
+                BorderThickness="0,1,0,0" Padding="8" Margin="6">
+            <Grid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text="Acciones:" FontWeight="SemiBold"
+                               VerticalAlignment="Center" FontSize="12"
+                               Foreground="#333333" Margin="0,0,10,0"/>
+
+                    <Button x:Name="btnAgregar"
+                            Content="➕ Agregar Nuevo"
+                            Style="{StaticResource BtnAgregar}"
+                            Margin="0,0,8,0"
+                            Width="130"
+                            Click="BtnAgregar_Click"/>
+
+                    <Button x:Name="btnActualizar"
+                            Content="📝 Editar Selección"
+                            Style="{StaticResource BtnActualizar}"
+                            Margin="0,0,8,0"
+                            Width="130"
+                            Click="BtnActualizar_Click"/>
+
+                    <Button x:Name="btnEliminar"
+                            Content="🗑 Eliminar Selección"
+                            Style="{StaticResource BtnEliminar}"
+                            Margin="0,0,8,0"
+                            Width="140"
+                            Click="BtnEliminar_Click"/>
+
+                    <Button x:Name="btnPermiso"
+                            Content="🗝️ Permiso Vista"
+                            Style="{StaticResource BtnPermiso}"
+                            Width="140"
+                            Click="BtnPermiso_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
