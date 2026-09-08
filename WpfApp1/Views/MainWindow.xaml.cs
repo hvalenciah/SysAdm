@@ -167,7 +167,7 @@ namespace WpfApp1.Views
 
         private void btnBalcaxModuloVista_Click(object sender, RoutedEventArgs e)
         {
-            
+            AbrirOActivarPestana<UserControls.ModuloVista>("Módulo-Vista Balcax", () => new UserControls.ModuloVista(this));
         }
 
         private void btnSalir_Click(object sender, RoutedEventArgs e)

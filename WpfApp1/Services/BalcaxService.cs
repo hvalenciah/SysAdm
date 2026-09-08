@@ -46,6 +46,8 @@ namespace WpfApp1.Services
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        #region MÉTODOS DE USUARIO
+
         /// <summary>
         /// Obtiene la lista de usuarios desde la API Balcax.
         /// </summary>
@@ -202,5 +204,205 @@ namespace WpfApp1.Services
             if (resultado is null || !resultado.Success)
                 throw new InvalidOperationException(resultado?.Message ?? "Error al guardar los permisos del usuario.");
         }
+
+        #endregion
+
+        #region MÉTODOS DE MÓDULOS
+
+        /// <summary>
+        /// Obtiene la lista general de módulos.
+        /// GET /Balcan/Modulo
+        /// </summary>
+        public async Task<List<BalcaxModulo>> ObtenerModulosAsync()
+        {
+            var response = await _httpClient.GetAsync("Balcan/Modulo");
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<List<BalcaxModulo>>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al obtener la lista de módulos.");
+
+            return resultado.Data ?? new List<BalcaxModulo>();
+        }
+
+        /// <summary>
+        /// Crea un nuevo módulo.
+        /// POST /Balcan/Modulo/create
+        /// </summary>
+        public async Task CrearModuloAsync(BalcaxModulo modulo)
+        {
+            var response = await _httpClient.PostAsJsonAsync("Balcan/Modulo/create", modulo);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al crear el módulo.");
+        }
+
+        /// <summary>
+        /// Actualiza un módulo existente.
+        /// POST /Balcan/Modulo/update
+        /// </summary>
+        public async Task ActualizarModuloAsync(BalcaxModulo modulo)
+        {
+            var response = await _httpClient.PostAsJsonAsync("Balcan/Modulo/update", modulo);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al actualizar el módulo.");
+        }
+
+        /// <summary>
+        /// Elimina un módulo por su ID.
+        /// POST /Balcan/Modulo/delete/{id}
+        /// </summary>
+        public async Task EliminarModuloAsync(int idModulo)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"Balcan/Modulo/delete/{idModulo}");
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al eliminar el módulo.");
+        }
+
+        #endregion
+
+        #region MÉTODOS DE VISTAS
+
+        /// <summary>
+        /// Obtiene el catálogo completo de vistas disponibles.
+        /// GET /Balcan/Vista
+        /// </summary>
+        public async Task<List<BalcaxVista>> ObtenerVistasAsync()
+        {
+            var response = await _httpClient.GetAsync("Balcan/Vista");
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<List<BalcaxVista>>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al obtener la lista de vistas.");
+
+            return resultado.Data ?? new List<BalcaxVista>();
+        }
+
+        /// <summary>
+        /// Crea una nueva vista en el catálogo general.
+        /// POST /Balcan/Vista/create
+        /// </summary>
+        public async Task CrearVistaAsync(BalcaxVista vista)
+        {
+            var response = await _httpClient.PostAsJsonAsync("Balcan/Vista/create", vista);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al crear la vista.");
+        }
+
+        /// <summary>
+        /// Actualiza una vista del catálogo.
+        /// POST /Balcan/Vista/update
+        /// </summary>
+        public async Task ActualizarVistaAsync(BalcaxVista vista)
+        {
+            var response = await _httpClient.PostAsJsonAsync("Balcan/Vista/update", vista);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al actualizar la vista.");
+        }
+
+        /// <summary>
+        /// Elimina una vista del catálogo.
+        /// POST /Balcan/Vista/delete/{id}
+        /// </summary>
+        public async Task EliminarVistaAsync(int idVista)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, $"Balcan/Vista/delete/{idVista}");
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al eliminar la vista.");
+        }
+
+        #endregion
+
+        #region MÉTODOS DE ASOCIACIÓN MÓDULO - VISTA
+
+        /// <summary>
+        /// Obtiene la lista de vistas asociadas a un módulo específico.
+        /// GET /Balcan/Modulo/{idModulo}/vistas
+        /// </summary>
+        public async Task<List<BalcaxVista>> ObtenerVistasPorModuloAsync(int idModulo)
+        {
+            var response = await _httpClient.GetAsync($"Balcan/Modulo/{idModulo}/vistas");
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<List<BalcaxVista>>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al obtener las vistas del módulo.");
+
+            return resultado.Data ?? new List<BalcaxVista>();
+        }
+
+        /// <summary>
+        /// Asocia una lista de vistas a un módulo específico.
+        /// POST /Balcan/Modulo/{idModulo}/asociar-vistas
+        /// </summary>
+        public async Task AsociarVistasAModuloAsync(int idModulo, IEnumerable<int> idsVistas)
+        {
+            var payload = new { IdModulo = idModulo, IdsVistas = idsVistas };
+            var response = await _httpClient.PostAsJsonAsync($"Balcan/Modulo/{idModulo}/asociar-vistas", payload);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al asociar vistas al módulo.");
+        }
+
+        /// <summary>
+        /// Remueve la asociación entre una lista de vistas y un módulo.
+        /// POST /Balcan/Modulo/{idModulo}/remover-vistas
+        /// </summary>
+        public async Task RemoverVistasDeModuloAsync(int idModulo, IEnumerable<int> idsVistas)
+        {
+            var payload = new { IdModulo = idModulo, IdsVistas = idsVistas };
+            var response = await _httpClient.PostAsJsonAsync($"Balcan/Modulo/{idModulo}/remover-vistas", payload);
+            response.EnsureSuccessStatusCode();
+
+            var resultado = await response.Content
+                .ReadFromJsonAsync<BalcaxApiResponse<object>>(_jsonOptions);
+
+            if (resultado is null || !resultado.Success)
+                throw new InvalidOperationException(resultado?.Message ?? "Error al desasociar vistas del módulo.");
+        }
+
+        #endregion
     }
 }
