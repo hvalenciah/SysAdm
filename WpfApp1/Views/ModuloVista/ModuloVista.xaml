@@ -36,6 +36,13 @@
             </Setter>
         </Style>
 
+        <Style x:Key="BtnVer" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#17A2B8"/>
+            <Setter Property="BorderBrush" Value="#117A8B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
         <Style x:Key="BtnAgregar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
             <Setter Property="Background" Value="#28A745"/>
             <Setter Property="BorderBrush" Value="#218838"/>
@@ -50,7 +57,7 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
-        <Style x:Key="BtnQuitar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+        <Style x:Key="BtnEliminar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
             <Setter Property="Background" Value="#DC3545"/>
             <Setter Property="BorderBrush" Value="#C82333"/>
             <Setter Property="Foreground" Value="White"/>
@@ -99,9 +106,10 @@
                              BorderBrush="#CCCCCC"/>
 
                     <StackPanel Grid.Column="2" Width="90">
+                        <Button x:Name="btnVerModulo" Content="Ver" Style="{StaticResource BtnVer}" Margin="0,0,0,6" Click="BtnVerModulo_Click"/>
                         <Button x:Name="btnAgregarModulo" Content="Agregar" Style="{StaticResource BtnAgregar}" Margin="0,0,0,6" Click="BtnAgregarModulo_Click"/>
                         <Button x:Name="btnModificarModulo" Content="Modificar" Style="{StaticResource BtnModificar}" Margin="0,0,0,6" Click="BtnModificarModulo_Click"/>
-                        <Button x:Name="btnQuitarModulo" Content="Quitar" Style="{StaticResource BtnQuitar}" Click="BtnQuitarModulo_Click"/>
+                        <Button x:Name="btnEliminarModulo" Content="Eliminar" Style="{StaticResource BtnEliminar}" Click="BtnEliminarModulo_Click"/>
                     </StackPanel>
                 </Grid>
             </GroupBox>
@@ -119,9 +127,10 @@
                              BorderBrush="#CCCCCC"/>
 
                     <StackPanel Grid.Column="2" Width="90">
+                        <Button x:Name="btnVerVista" Content="Ver" Style="{StaticResource BtnVer}" Margin="0,0,0,6" Click="BtnVerVista_Click"/>
                         <Button x:Name="btnAgregarVista" Content="Agregar" Style="{StaticResource BtnAgregar}" Margin="0,0,0,6" Click="BtnAgregarVista_Click"/>
                         <Button x:Name="btnModificarVista" Content="Modificar" Style="{StaticResource BtnModificar}" Margin="0,0,0,6" Click="BtnModificarVista_Click"/>
-                        <Button x:Name="btnQuitarVista" Content="Quitar" Style="{StaticResource BtnQuitar}" Click="BtnQuitarVista_Click"/>
+                        <Button x:Name="btnEliminarVista" Content="Eliminar" Style="{StaticResource BtnEliminar}" Click="BtnEliminarVista_Click"/>
                     </StackPanel>
                 </Grid>
             </GroupBox>
@@ -153,10 +162,10 @@
                              SelectionMode="Extended" BorderBrush="#CCCCCC"/>
                 </Grid>
 
-                <!-- Botones de Traslado (Agregar/Quitar Asociación) -->
+                <!-- Botones de Traslado (Agregar/Eliminar Asociación) -->
                 <StackPanel Grid.Column="2" VerticalAlignment="Center" Width="90">
-                    <Button x:Name="btnAgregarAsociacion" Content="Agregar >>" Style="{StaticResource BtnMover}" Margin="0,0,0,10" Click="BtnAgregarAsociacion_Click"/>
-                    <Button x:Name="btnQuitarAsociacion" Content="&lt;&lt; Quitar" Style="{StaticResource BtnMover}" Click="BtnQuitarAsociacion_Click"/>
+                    <Button x:Name="btnAgregarAsociacion" Content="Agregar &gt;&gt;" Style="{StaticResource BtnMover}" Margin="0,0,0,10" Click="BtnAgregarAsociacion_Click"/>
+                    <Button x:Name="btnEliminarAsociacion" Content="&lt;&lt; Eliminar" Style="{StaticResource BtnMover}" Click="BtnEliminarAsociacion_Click"/>
                 </StackPanel>
 
                 <!-- Vistas Asignadas al Módulo Seleccionado -->

@@ -9,13 +9,13 @@ namespace WpfApp1.Views.UserControls
         public BalcaxVista Vista { get; private set; } = null!;
         public bool Guardado { get; private set; } = false;
 
-        public VistaFormWindow(BalcaxVista? vistaExistente = null)
+        public VistaFormWindow(BalcaxVista? vistaExistente = null, bool esSoloLectura = false)
         {
             InitializeComponent();
 
             if (vistaExistente != null)
             {
-                // Editar
+                // Editar o Ver
                 txtId.Text = vistaExistente.Id.ToString();
                 txtNombre.Text = vistaExistente.Nombre;
                 txtRuta.Text = vistaExistente.Ruta;
@@ -29,6 +29,31 @@ namespace WpfApp1.Views.UserControls
                 // Crear
                 Vista = new BalcaxVista();
             }
+
+            if (esSoloLectura)
+            {
+                AplicarModoSoloLectura();
+            }
+        }
+
+        private void AplicarModoSoloLectura()
+        {
+            Title = "Consulta de Módulo";
+
+            var bc = new System.Windows.Media.BrushConverter();
+            var fondoDeshabilitado = (System.Windows.Media.Brush)bc.ConvertFrom("#F0F0F0")!;
+
+            txtNombre.IsReadOnly = true;
+            txtNombre.Background = fondoDeshabilitado;
+            
+            txtDescripcion.IsReadOnly = true;
+            txtDescripcion.Background = fondoDeshabilitado;
+            
+            chkHabilitado.IsEnabled = false;
+
+            // Ocultar el botón Guardar y renombrar Cancelar a Cerrar
+            btnGuardar.Visibility = Visibility.Collapsed;
+            btnCancelar.Content = "Cerrar";
         }
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)

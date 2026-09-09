@@ -9,13 +9,13 @@ namespace WpfApp1.Views.UserControls
         public BalcaxModulo Modulo { get; private set; } = null!;
         public bool Guardado { get; private set; } = false;
 
-        public ModuloFormWindow(BalcaxModulo? moduloExistente = null)
+        public ModuloFormWindow(BalcaxModulo? moduloExistente = null, bool esSoloLectura = false)
         {
             InitializeComponent();
 
             if (moduloExistente != null)
             {
-                // Editar
+                // Editar o Ver
                 txtId.Text = moduloExistente.Id.ToString();
                 txtNombre.Text = moduloExistente.Nombre;
                 txtDescripcion.Text = moduloExistente.Descripcion;
@@ -28,6 +28,31 @@ namespace WpfApp1.Views.UserControls
                 // Crear
                 Modulo = new BalcaxModulo();
             }
+
+            if (esSoloLectura)
+            {
+                AplicarModoSoloLectura();
+            }
+        }
+
+        private void AplicarModoSoloLectura()
+        {
+            Title = "Consulta de Módulo";
+
+            var bc = new System.Windows.Media.BrushConverter();
+            var fondoDeshabilitado = (System.Windows.Media.Brush)bc.ConvertFrom("#F0F0F0")!;
+
+            txtNombre.IsReadOnly = true;
+            txtNombre.Background = fondoDeshabilitado;
+            
+            txtDescripcion.IsReadOnly = true;
+            txtDescripcion.Background = fondoDeshabilitado;
+            
+            chkHabilitado.IsEnabled = false;
+
+            // Ocultar el botón Guardar y renombrar Cancelar a Cerrar
+            btnGuardar.Visibility = Visibility.Collapsed;
+            btnCancelar.Content = "Cerrar";
         }
 
         private void BtnCancelar_Click(object sender, RoutedEventArgs e)

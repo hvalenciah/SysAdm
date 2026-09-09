@@ -114,6 +114,25 @@ namespace WpfApp1.Views.UserControls
             }
         }
 
+        private void BtnVerModulo_Click(object sender, RoutedEventArgs e)
+        {
+            var moduloSel = lstModulos.SelectedItem as BalcaxModulo;
+            if (moduloSel == null)
+            {
+                MessageBox.Show("Seleccione un módulo para visualizar sus datos.", "Atención", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            _parent.LogOutput($"Visualizando detalle del módulo ID: {moduloSel.Id}...");
+            
+            // Abrir formulario en modo solo lectura (esSoloLectura = true)
+            var ventana = new ModuloFormWindow(moduloSel, esSoloLectura: true) 
+            { 
+                Owner = Window.GetWindow(this) 
+            };
+            ventana.ShowDialog();
+        }
+
         private async void BtnModificarModulo_Click(object sender, RoutedEventArgs e)
         {
             var moduloSel = lstModulos.SelectedItem as BalcaxModulo;
@@ -140,7 +159,7 @@ namespace WpfApp1.Views.UserControls
             }
         }
 
-        private async void BtnQuitarModulo_Click(object sender, RoutedEventArgs e)
+        private async void BtnEliminarModulo_Click(object sender, RoutedEventArgs e)
         {
             var moduloSel = lstModulos.SelectedItem as BalcaxModulo;
             if (moduloSel == null)
@@ -148,7 +167,52 @@ namespace WpfApp1.Views.UserControls
                 MessageBox.Show("Seleccione un módulo para eliminar.", "Atención", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-            // Lógica de eliminación
+
+            var confirmacion = MessageBox.Show(
+                $"¿Está seguro de que desea eliminar el módulo '{moduloSel.Nombre}'?\nEsta acción también podría remover sus asociaciones con las vistas.",
+                "Confirmar Eliminación",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirmacion != MessageBoxResult.Yes) return;
+
+            try
+            {
+                _parent.LogOutput($"Eliminando módulo ID: {moduloSel.Id} ({moduloSel.Nombre})...");
+                
+                await _servicio!.EliminarModuloAsync(moduloSel.Id);
+                
+                _parent.LogOutput("Módulo eliminado exitosamente.");
+                
+                // Recargar datos y limpiar la selección
+                CargarDatos();
+                lstVistasAsignadas.ItemsSource = null;
+                lblVistasAsignadas.Text = "Vistas Asignadas al Módulo:";
+            }
+            catch (Exception ex)
+            {
+                _parent.LogError("ERR_DELETE_MODULO", $"Error al eliminar el módulo: {ex.Message}");
+                MessageBox.Show($"Ocurrió un error al eliminar el módulo: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnVerVista_Click(object sender, RoutedEventArgs e)
+        {
+            var vistaSel = lstVistas.SelectedItem as BalcaxVista;
+            if (vistaSel == null)
+            {
+                MessageBox.Show("Seleccione una vista para visualizar sus datos.", "Atención", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            _parent.LogOutput($"Visualizando detalle de la vista ID: {vistaSel.Id}...");
+
+            // Abrir formulario en modo solo lectura (esSoloLectura = true)
+            var ventana = new VistaFormWindow(vistaSel, esSoloLectura: true) 
+            { 
+                Owner = Window.GetWindow(this) 
+            };
+            ventana.ShowDialog();
         }
 
         private async void BtnAgregarVista_Click(object sender, RoutedEventArgs e)
@@ -196,7 +260,7 @@ namespace WpfApp1.Views.UserControls
             }
         }
 
-        private async void BtnQuitarVista_Click(object sender, RoutedEventArgs e)
+        private async void BtnEliminarVista_Click(object sender, RoutedEventArgs e)
         {
             var vistaSel = lstVistas.SelectedItem as BalcaxVista;
             if (vistaSel == null)
@@ -204,7 +268,37 @@ namespace WpfApp1.Views.UserControls
                 MessageBox.Show("Seleccione una vista para eliminar.", "Atención", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
-            // Lógica de eliminación
+
+            var confirmacion = MessageBox.Show(
+                $"¿Está seguro de que desea eliminar la vista '{vistaSel.Nombre}'?\nEsta acción la removerá de todos los módulos asociados.",
+                "Confirmar Eliminación",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirmacion != MessageBoxResult.Yes) return;
+
+            try
+            {
+                _parent.LogOutput($"Eliminando vista ID: {vistaSel.Id} ({vistaSel.Nombre})...");
+                
+                await _servicio!.EliminarVistaAsync(vistaSel.Id);
+                
+                _parent.LogOutput("Vista eliminada exitosamente.");
+                
+                // Recargar datos actualizados del catálogo
+                CargarDatos();
+
+                // Si hay un módulo seleccionado actualmente, refrescar sus vistas asignadas
+                if (lstModulos.SelectedItem is BalcaxModulo moduloSeleccionado)
+                {
+                    CargarVistasDelModulo(moduloSeleccionado.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                _parent.LogError("ERR_DELETE_VISTA", $"Error al eliminar la vista: {ex.Message}");
+                MessageBox.Show($"Ocurrió un error al eliminar la vista: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         // ==================== EVENTOS LADO DERECHO (ASOCIACIÓN) ====================
@@ -237,7 +331,7 @@ namespace WpfApp1.Views.UserControls
             }
         }
 
-        private async void BtnQuitarAsociacion_Click(object sender, RoutedEventArgs e)
+        private async void BtnEliminarAsociacion_Click(object sender, RoutedEventArgs e)
         {
             var modulo = lstModulos.SelectedItem as BalcaxModulo;
             if (modulo == null)
