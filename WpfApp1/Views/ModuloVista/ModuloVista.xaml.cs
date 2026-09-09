@@ -47,14 +47,24 @@ namespace WpfApp1.Views.UserControls
             _parent.LogOutput("Cargando módulos y vistas...");
             try
             {
-                // Ejemplo de consulta de datos desde el servicio
-                // Ajustar las llamadas a métodos del servicio según corresponda
+                var selectedModuloId = (lstModulos.SelectedItem as BalcaxModulo)?.Id;
+                var selectedVistaId = (lstVistas.SelectedItem as BalcaxVista)?.Id;
+
                 var modulos = await _servicio.ObtenerModulosAsync();
                 var vistas = await _servicio.ObtenerVistasAsync();
 
                 lstModulos.ItemsSource = modulos;
                 lstVistas.ItemsSource = vistas;
                 lstVistasDisponibles.ItemsSource = vistas;
+
+                if (selectedModuloId.HasValue)
+                {
+                    lstModulos.SelectedItem = modulos.FirstOrDefault(m => m.Id == selectedModuloId.Value);
+                }
+                if (selectedVistaId.HasValue)
+                {
+                    lstVistas.SelectedItem = vistas.FirstOrDefault(v => v.Id == selectedVistaId.Value);
+                }
 
                 _parent.LogOutput($"Módulos ({modulos.Count}) y Vistas ({vistas.Count}) cargados correctamente.");
             }
@@ -86,8 +96,11 @@ namespace WpfApp1.Views.UserControls
             if (_servicio == null) return;
             try
             {
-                var vistasAsignadas = await _servicio.ObtenerVistasPorModuloAsync(moduloId);
-                lstVistasAsignadas.ItemsSource = vistasAsignadas;
+                // Obtener el objeto ModuloConVistasDTO desde el servicio
+                var resultado = await _servicio.ObtenerVistasPorModuloAsync(moduloId);
+                
+                // Asignar únicamente la lista de vistas a la ListBox
+                lstVistasAsignadas.ItemsSource = resultado?.Vistas;
             }
             catch (Exception ex)
             {
@@ -114,7 +127,7 @@ namespace WpfApp1.Views.UserControls
             }
         }
 
-        private void BtnVerModulo_Click(object sender, RoutedEventArgs e)
+        private async void BtnVerModulo_Click(object sender, RoutedEventArgs e)
         {
             var moduloSel = lstModulos.SelectedItem as BalcaxModulo;
             if (moduloSel == null)
@@ -125,8 +138,10 @@ namespace WpfApp1.Views.UserControls
 
             _parent.LogOutput($"Visualizando detalle del módulo ID: {moduloSel.Id}...");
             
+            var moduloActualizado = await _servicio!.ObtenerModuloPorIdAsync(moduloSel.Id) ?? moduloSel;
+
             // Abrir formulario en modo solo lectura (esSoloLectura = true)
-            var ventana = new ModuloFormWindow(moduloSel, esSoloLectura: true) 
+            var ventana = new ModuloFormWindow(moduloActualizado, esSoloLectura: true) 
             { 
                 Owner = Window.GetWindow(this) 
             };
@@ -142,7 +157,10 @@ namespace WpfApp1.Views.UserControls
                 return;
             }
 
-            var ventana = new ModuloFormWindow(moduloSel) { Owner = Window.GetWindow(this) };
+            _parent.LogOutput($"Consultando datos actualizados del módulo ID: {moduloSel.Id}...");
+            var moduloActualizado = await _servicio!.ObtenerModuloPorIdAsync(moduloSel.Id) ?? moduloSel;
+
+            var ventana = new ModuloFormWindow(moduloActualizado) { Owner = Window.GetWindow(this) };
             if (ventana.ShowDialog() == true && ventana.Guardado)
             {
                 try
@@ -196,7 +214,7 @@ namespace WpfApp1.Views.UserControls
             }
         }
 
-        private void BtnVerVista_Click(object sender, RoutedEventArgs e)
+        private async void BtnVerVista_Click(object sender, RoutedEventArgs e)
         {
             var vistaSel = lstVistas.SelectedItem as BalcaxVista;
             if (vistaSel == null)
@@ -207,8 +225,10 @@ namespace WpfApp1.Views.UserControls
 
             _parent.LogOutput($"Visualizando detalle de la vista ID: {vistaSel.Id}...");
 
+            var vistaActualizada = await _servicio!.ObtenerVistaPorIdAsync(vistaSel.Id) ?? vistaSel;
+
             // Abrir formulario en modo solo lectura (esSoloLectura = true)
-            var ventana = new VistaFormWindow(vistaSel, esSoloLectura: true) 
+            var ventana = new VistaFormWindow(vistaActualizada, esSoloLectura: true) 
             { 
                 Owner = Window.GetWindow(this) 
             };
@@ -243,7 +263,10 @@ namespace WpfApp1.Views.UserControls
                 return;
             }
 
-            var ventana = new VistaFormWindow(vistaSel) { Owner = Window.GetWindow(this) };
+            _parent.LogOutput($"Consultando datos actualizados de la vista ID: {vistaSel.Id}...");
+            var vistaActualizada = await _servicio!.ObtenerVistaPorIdAsync(vistaSel.Id) ?? vistaSel;
+
+            var ventana = new VistaFormWindow(vistaActualizada) { Owner = Window.GetWindow(this) };
             if (ventana.ShowDialog() == true && ventana.Guardado)
             {
                 try
@@ -321,9 +344,16 @@ namespace WpfApp1.Views.UserControls
 
             try
             {
-                _parent.LogOutput($"Asociando {vistasSeleccionadas.Count} vista(s) al módulo {modulo.Nombre}...");
-                // Ejemplo: await _servicio.AsociarVistasAModuloAsync(modulo.Id, vistasSeleccionadas.Select(v => v.Id));
+                _parent.LogOutput($"Asociando {vistasSeleccionadas.Count} vista(s) al módulo '{modulo.Nombre}'...");
+                
+                foreach (var vista in vistasSeleccionadas)
+                {
+                    await _servicio!.AsociarVistaAModuloAsync(modulo.Id, vista.Id);
+                }
+
+                _parent.LogOutput("Asociación guardada correctamente.");
                 CargarVistasDelModulo(modulo.Id);
+                CargarDatos();
             }
             catch (Exception ex)
             {
@@ -340,7 +370,7 @@ namespace WpfApp1.Views.UserControls
                 return;
             }
 
-            var vistasSeleccionadas = lstVistasAsignadas.SelectedItems.Cast<BalcaxVista>().ToList();
+            var vistasSeleccionadas = lstVistasAsignadas.SelectedItems.Cast<VistaDetalleDTO>().ToList();
             if (!vistasSeleccionadas.Any())
             {
                 MessageBox.Show("Seleccione al menos una vista asignada para remover.", "Atención", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -349,9 +379,16 @@ namespace WpfApp1.Views.UserControls
 
             try
             {
-                _parent.LogOutput($"Removiendo {vistasSeleccionadas.Count} vista(s) del módulo {modulo.Nombre}...");
-                // Ejemplo: await _servicio.RemoverVistasDeModuloAsync(modulo.Id, vistasSeleccionadas.Select(v => v.Id));
+                _parent.LogOutput($"Removiendo {vistasSeleccionadas.Count} vista(s) del módulo '{modulo.Nombre}'...");
+
+                foreach (var vista in vistasSeleccionadas)
+                {
+                    await _servicio!.DesasociarVistaDeModuloAsync(modulo.Id, vista.IdVista);
+                }
+
+                _parent.LogOutput("Vista(s) desasociada(s) correctamente.");
                 CargarVistasDelModulo(modulo.Id);
+                CargarDatos();
             }
             catch (Exception ex)
             {

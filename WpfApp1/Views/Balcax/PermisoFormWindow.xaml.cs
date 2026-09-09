@@ -37,6 +37,7 @@ namespace WpfApp1.Views.UserControls
             {
                 // 1. Consultar permisos desde el API (obtiene toda la estructura jerárquica)
                 var permisosDto = await _servicio.ObtenerPermisosUsuarioAsync(_usuario.Id);
+                Console.WriteLine($"Permisos: {permisosDto}");
 
                 // 2. Construir la jerarquía para el TreeView
                 PermisosArbol.Clear();

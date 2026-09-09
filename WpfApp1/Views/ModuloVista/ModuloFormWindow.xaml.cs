@@ -18,8 +18,6 @@ namespace WpfApp1.Views.UserControls
                 // Editar o Ver
                 txtId.Text = moduloExistente.Id.ToString();
                 txtNombre.Text = moduloExistente.Nombre;
-                txtDescripcion.Text = moduloExistente.Descripcion;
-                chkHabilitado.IsChecked = moduloExistente.Habilitado;
 
                 Modulo = moduloExistente;
             }
@@ -44,11 +42,6 @@ namespace WpfApp1.Views.UserControls
 
             txtNombre.IsReadOnly = true;
             txtNombre.Background = fondoDeshabilitado;
-            
-            txtDescripcion.IsReadOnly = true;
-            txtDescripcion.Background = fondoDeshabilitado;
-            
-            chkHabilitado.IsEnabled = false;
 
             // Ocultar el botón Guardar y renombrar Cancelar a Cerrar
             btnGuardar.Visibility = Visibility.Collapsed;
@@ -65,13 +58,12 @@ namespace WpfApp1.Views.UserControls
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("El campo Nombre es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El campo Nombre del Módulo es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNombre.Focus();
                 return;
             }
 
             Modulo.Nombre = txtNombre.Text.Trim();
-            Modulo.Descripcion = string.IsNullOrWhiteSpace(txtDescripcion.Text) ? null : txtDescripcion.Text.Trim();
-            Modulo.Habilitado = chkHabilitado.IsChecked ?? false;
 
             Guardado = true;
             DialogResult = true;
