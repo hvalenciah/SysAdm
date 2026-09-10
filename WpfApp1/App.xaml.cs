@@ -18,7 +18,7 @@ namespace WpfApp1
         {
             base.OnStartup(e);
 
-            string environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
+            string environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Staging";
 
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
