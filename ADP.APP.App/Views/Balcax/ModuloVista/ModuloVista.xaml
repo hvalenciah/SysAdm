@@ -1,0 +1,184 @@
+<UserControl x:Class="SysAdm.Views.UserControls.ModuloVista"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+
+    <UserControl.Resources>
+        <!-- Estilo base de Botones -->
+        <Style x:Key="BtnAccion" TargetType="Button">
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="3"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BtnVer" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#17A2B8"/>
+            <Setter Property="BorderBrush" Value="#117A8B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="BtnAgregar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#28A745"/>
+            <Setter Property="BorderBrush" Value="#218838"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="BtnModificar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#FFC107"/>
+            <Setter Property="BorderBrush" Value="#E0A800"/>
+            <Setter Property="Foreground" Value="#212529"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="BtnEliminar" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#DC3545"/>
+            <Setter Property="BorderBrush" Value="#C82333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="BtnMover" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#0078D4"/>
+            <Setter Property="BorderBrush" Value="#005A9E"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <!-- Lado Izquierdo: Gestión Individual de Módulo y Vista -->
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+            <!-- Separador vertical -->
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="15"/>
+            <!-- Lado Derecho: Asociación Módulo-Vista -->
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ==================== LADO IZQUIERDO ==================== -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- SECCIÓN MÓDULO -->
+            <GroupBox Grid.Row="0" Header="Módulo" BorderBrush="#CCCCCC" Padding="6">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox x:Name="lstModulos" DisplayMemberPath="Nombre" 
+                             SelectionChanged="LstModulos_SelectionChanged"
+                             BorderBrush="#CCCCCC"/>
+
+                    <StackPanel Grid.Column="2" Width="90">
+                        <Button x:Name="btnVerModulo" Content="Ver" Style="{StaticResource BtnVer}" Margin="0,0,0,6" Click="BtnVerModulo_Click"/>
+                        <Button x:Name="btnAgregarModulo" Content="Agregar" Style="{StaticResource BtnAgregar}" Margin="0,0,0,6" Click="BtnAgregarModulo_Click"/>
+                        <Button x:Name="btnModificarModulo" Content="Modificar" Style="{StaticResource BtnModificar}" Margin="0,0,0,6" Click="BtnModificarModulo_Click"/>
+                        <Button x:Name="btnEliminarModulo" Content="Eliminar" Style="{StaticResource BtnEliminar}" Click="BtnEliminarModulo_Click"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <!-- SECCIÓN VISTA -->
+            <GroupBox Grid.Row="2" Header="Vista" BorderBrush="#CCCCCC" Padding="6">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox x:Name="lstVistas" DisplayMemberPath="Nombre" 
+                             BorderBrush="#CCCCCC"/>
+
+                    <StackPanel Grid.Column="2" Width="90">
+                        <Button x:Name="btnVerVista" Content="Ver" Style="{StaticResource BtnVer}" Margin="0,0,0,6" Click="BtnVerVista_Click"/>
+                        <Button x:Name="btnAgregarVista" Content="Agregar" Style="{StaticResource BtnAgregar}" Margin="0,0,0,6" Click="BtnAgregarVista_Click"/>
+                        <Button x:Name="btnModificarVista" Content="Modificar" Style="{StaticResource BtnModificar}" Margin="0,0,0,6" Click="BtnModificarVista_Click"/>
+                        <Button x:Name="btnEliminarVista" Content="Eliminar" Style="{StaticResource BtnEliminar}" Click="BtnEliminarVista_Click"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <!-- SEPARADOR VERTICAL -->
+        <Rectangle Grid.Column="2" Width="1" Fill="#DDDDDD" VerticalAlignment="Stretch"/>
+
+        <!-- ==================== LADO DERECHO ==================== -->
+        <!-- SECCIÓN MÓDULO - VISTA (ASOCIACIÓN) -->
+        <GroupBox Grid.Column="4" Header="Módulo - Vista" BorderBrush="#CCCCCC" Padding="6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Vistas Disponibles -->
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Vistas Disponibles:" FontSize="11" Foreground="#555555" Margin="0,0,0,4"/>
+                    <ListBox x:Name="lstVistasDisponibles" Grid.Row="1" DisplayMemberPath="Nombre"
+                             SelectionMode="Extended" BorderBrush="#CCCCCC"/>
+                </Grid>
+
+                <!-- Botones de Traslado (Agregar/Eliminar Asociación) -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" Width="90">
+                    <Button x:Name="btnAgregarAsociacion" Content="Agregar &gt;&gt;" Style="{StaticResource BtnMover}" Margin="0,0,0,10" Click="BtnAgregarAsociacion_Click"/>
+                    <Button x:Name="btnEliminarAsociacion" Content="&lt;&lt; Eliminar" Style="{StaticResource BtnMover}" Click="BtnEliminarAsociacion_Click"/>
+                </StackPanel>
+
+                <!-- Vistas Asignadas al Módulo Seleccionado -->
+                <Grid Grid.Column="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="lblVistasAsignadas" Text="Vistas Asignadas al Módulo:" FontSize="11" Foreground="#555555" Margin="0,0,0,4"/>
+                    <ListBox x:Name="lstVistasAsignadas" Grid.Row="1" DisplayMemberPath="Nombre"
+                             SelectionMode="Extended" BorderBrush="#CCCCCC"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

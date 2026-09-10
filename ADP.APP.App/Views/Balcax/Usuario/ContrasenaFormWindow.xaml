@@ -1,0 +1,68 @@
+<Window x:Class="SysAdm.Views.UserControls.ContrasenaFormWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Restablecer Contraseña" Height="380" Width="400"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Información del Usuario -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,15">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <TextBlock Text="Usuario: " FontSize="11" Foreground="#666666"/>
+                <TextBlock x:Name="lblUsuario" Text="-" FontSize="11" FontWeight="Bold" Foreground="#333333"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Correo: " FontSize="11" Foreground="#666666"/>
+                <TextBlock x:Name="lblCorreo" Text="-" FontSize="11" Foreground="#666666"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Formulario Contraseña -->
+        <StackPanel Grid.Row="1">
+            <!-- Contraseña Actual (Con Show/Hide Password) -->
+            <TextBlock Text="Contraseña Actual" FontSize="11" Foreground="#666666" Margin="0,0,0,2"/>
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+                
+                <PasswordBox x:Name="txtContrasenaActual" Height="26" VerticalContentAlignment="Center" IsHitTestVisible="True"/>
+                <TextBox x:Name="txtContrasenaActualRevelada" Height="26" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+                
+                <Button Grid.Column="1" x:Name="btnTogglePassword" Content="👁" Margin="4,0,0,0" Height="26" 
+                        Click="BtnTogglePassword_Click" ToolTip="Mostrar/Ocultar Contraseña" Cursor="Hand"/>
+            </Grid>
+
+            <!-- Nueva Contraseña (Con Generador) -->
+            <TextBlock Text="Nueva Contraseña *" FontSize="11" Foreground="#666666" Margin="0,0,0,2"/>
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+
+                <PasswordBox x:Name="txtNuevaContrasena" Height="26" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="txtNuevaContrasenaRevelada" Height="26" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+
+                <Button Grid.Column="1" Content="🔑" Margin="4,0,0,0" Height="26" 
+                        Click="BtnGenerarContrasena_Click" ToolTip="Generar contraseña segura" Cursor="Hand"/>
+            </Grid>
+
+            <!-- Confirmar Contraseña -->
+            <TextBlock Text="Confirmar Contraseña *" FontSize="11" Foreground="#666666" Margin="0,0,0,2"/>
+            <PasswordBox x:Name="txtConfirmarContrasena" Margin="0,0,0,10" Height="26" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Botones de Acción -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="Cancelar" Width="80" Height="28" Margin="0,0,8,0" Click="BtnCancelar_Click"/>
+            <Button Content="Guardar" Width="80" Height="28" Background="#0078D4" Foreground="White" Click="BtnGuardar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
