@@ -223,5 +223,41 @@ namespace WpfApp1.Views.UserControls
                 // CargarUsuarios();
             }
         }
+
+        private async void BtnContrasena_Click(object sender, RoutedEventArgs e)
+        {
+            if (_servicio == null) return;
+
+            var usuarioSeleccionado = dgvUsuarios.SelectedItem as BalcaxUsuario;
+            if (usuarioSeleccionado == null)
+            {
+                MessageBox.Show("Por favor, seleccione un usuario de la lista para restablecer su contraseña.", 
+                                "Selección requerida", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var form = new ContrasenaFormWindow(usuarioSeleccionado)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (form.ShowDialog() == true && form.Guardado)
+            {
+                _parent.LogOutput($"Restableciendo contraseña para el usuario ID {usuarioSeleccionado.Id}...");
+                try
+                {
+                    // Se clona o actualiza el objeto con la nueva contraseña
+                    usuarioSeleccionado.Contrasena = form.NuevaContrasena;
+                    
+                    await _servicio.ActualizarUsuarioAsync(usuarioSeleccionado);
+                    _parent.LogOutput($"Contraseña del usuario ID {usuarioSeleccionado.Id} restablecida exitosamente.");
+                    MessageBox.Show("Contraseña actualizada con éxito.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    _parent.LogError("ERR_BALCAX_PASSWORD", $"Error al restablecer contraseña: {ex.Message}");
+                }
+            }
+        }
     }
 }

@@ -74,8 +74,16 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
-        <!-- Botón Permiso Vista (Morado / Púrpura) -->
+        <!-- Botón Permiso Vista -->
         <Style x:Key="BtnPermiso" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#0078D4"/>
+            <Setter Property="BorderBrush" Value="#0078D4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <!-- Botón Contrasena -->
+        <Style x:Key="BtnContrasena" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
             <Setter Property="Background" Value="#6F42C1"/>
             <Setter Property="BorderBrush" Value="#5A32A3"/>
             <Setter Property="Foreground" Value="White"/>
@@ -219,31 +227,38 @@
                                Foreground="#333333" Margin="0,0,10,0"/>
 
                     <Button x:Name="btnAgregar"
-                            Content="➕ Agregar Nuevo"
+                            Content="➕ Agregar"
                             Style="{StaticResource BtnAgregar}"
                             Margin="0,0,8,0"
                             Width="130"
                             Click="BtnAgregar_Click"/>
 
                     <Button x:Name="btnActualizar"
-                            Content="📝 Editar Selección"
+                            Content="📝 Editar"
                             Style="{StaticResource BtnActualizar}"
                             Margin="0,0,8,0"
                             Width="130"
                             Click="BtnActualizar_Click"/>
 
                     <Button x:Name="btnEliminar"
-                            Content="🗑 Eliminar Selección"
+                            Content="🗑 Eliminar"
                             Style="{StaticResource BtnEliminar}"
                             Margin="0,0,8,0"
-                            Width="140"
+                            Width="130"
                             Click="BtnEliminar_Click"/>
 
                     <Button x:Name="btnPermiso"
-                            Content="🗝️ Permiso Vista"
+                            Content="🗝️ Permiso"
                             Style="{StaticResource BtnPermiso}"
-                            Width="140"
+                            Margin="0,0,8,0"
+                            Width="130"
                             Click="BtnPermiso_Click"/>
+
+                    <Button x:Name="btnContrasena"
+                            Content="🔒 Contraseña"
+                            Style="{StaticResource BtnContrasena}"
+                            Width="130"
+                            Click="BtnContrasena_Click"/>
                 </StackPanel>
             </Grid>
         </Border>
