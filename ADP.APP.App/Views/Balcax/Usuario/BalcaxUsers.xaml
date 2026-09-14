@@ -122,12 +122,12 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Buscar por:" FontSize="11" Foreground="#555555" Margin="0,0,0,2"/>
                     <ComboBox x:Name="cmbFiltro" Width="120" Height="26" SelectedIndex="0" VerticalContentAlignment="Center">
-                        <ComboBoxItem Content="General"/>
+                        <ComboBoxItem Content="Todo"/>
                         <ComboBoxItem Content="Id"/>
-                        <ComboBoxItem Content="Nombre"/>
-                        <ComboBoxItem Content="Apellidos"/>
+                        <ComboBoxItem Content="Nombre completo"/>
                         <ComboBoxItem Content="Correo"/>
                         <ComboBoxItem Content="Telefono"/>
+                        <ComboBoxItem Content="Avatar"/>
                     </ComboBox>
                 </StackPanel>
 

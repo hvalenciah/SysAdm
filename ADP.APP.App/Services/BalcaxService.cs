@@ -81,11 +81,8 @@ namespace SysAdm.Services
                 case "id":
                     var uId = await GetByIdAsync(valor);
                     return uId != null ? new List<BalcaxUsuario> { uId } : new List<BalcaxUsuario>();
-                case "nombre":
-                    endpoint = $"Balcan/Usuario/by-name/{Uri.EscapeDataString(valor)}";
-                    break;
-                case "apellidos":
-                    endpoint = $"Balcan/Usuario/by-lastname/{Uri.EscapeDataString(valor)}";
+                case "nombre completo":
+                    endpoint = $"Balcan/Usuario/by-fullname/{Uri.EscapeDataString(valor)}";
                     break;
                 case "correo":
                     endpoint = $"Balcan/Usuario/by-email/{Uri.EscapeDataString(valor)}";
@@ -93,7 +90,10 @@ namespace SysAdm.Services
                 case "telefono":
                     endpoint = $"Balcan/Usuario/by-phone/{Uri.EscapeDataString(valor)}";
                     break;
-                default: // Filtro General
+                case "avatar":
+                    endpoint = $"Balcan/Usuario/by-avatar/{Uri.EscapeDataString(valor)}";
+                    break;
+                default:
                     endpoint = $"Balcan/Usuario/search/{Uri.EscapeDataString(valor)}";
                     break;
             }
