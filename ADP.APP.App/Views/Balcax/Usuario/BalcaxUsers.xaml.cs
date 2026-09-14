@@ -73,7 +73,16 @@ namespace SysAdm.Views.UserControls
             {
                 var usuarios = await _servicio.BuscarUsuariosAsync(filtro, valor);
                 dgvUsuarios.ItemsSource = usuarios;
-                _parent.LogOutput($"Búsqueda finalizada: {usuarios.Count} registros coincidentes.");
+
+                if (usuarios == null || usuarios.Count == 0)
+                {
+                    _parent.LogOutput("Búsqueda finalizada: No se encontraron resultados.");
+                    MessageBox.Show("No se encontraron resultados para la búsqueda realizada.", "Sin resultados", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    _parent.LogOutput($"Búsqueda finalizada: {usuarios.Count} registros coincidentes.");
+                }
             }
             catch (Exception ex)
             {

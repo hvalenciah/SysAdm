@@ -99,15 +99,32 @@ namespace SysAdm.Services
             }
 
             var response = await _httpClient.GetAsync(endpoint);
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return new List<BalcaxUsuario>();
+            }
+
             response.EnsureSuccessStatusCode();
 
             var resultado = await response.Content
-                .ReadFromJsonAsync<BalcaxApiResponse<List<BalcaxUsuario>>>(_jsonOptions);
+                .ReadFromJsonAsync<BalcaxApiResponse<JsonElement>>(_jsonOptions);
 
             if (resultado is null || !resultado.Success)
                 throw new InvalidOperationException(resultado?.Message ?? "Fallo en la búsqueda.");
 
-            return resultado.Data ?? new List<BalcaxUsuario>();
+            var usuarios = new List<BalcaxUsuario>();
+            if (resultado.Data.ValueKind == JsonValueKind.Array)
+            {
+                var lista = JsonSerializer.Deserialize<List<BalcaxUsuario>>(resultado.Data.GetRawText(), _jsonOptions);
+                if (lista != null) usuarios.AddRange(lista);
+            }
+            else if (resultado.Data.ValueKind == JsonValueKind.Object)
+            {
+                var item = JsonSerializer.Deserialize<BalcaxUsuario>(resultado.Data.GetRawText(), _jsonOptions);
+                if (item != null) usuarios.Add(item);
+            }
+
+            return usuarios;
         }
 
         private async Task<BalcaxUsuario?> GetByIdAsync(string idString)
