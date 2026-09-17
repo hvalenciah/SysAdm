@@ -170,6 +170,20 @@ namespace SysAdm.Views
             AbrirOActivarPestana<UserControls.ModuloVista>("Módulo-Vista Balcax", () => new UserControls.ModuloVista(this));
         }
 
+        private void btnBalcaxPermisos_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnContpaqiColaborador_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnContpaqiVacaciones_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
         private void btnSalir_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -367,6 +381,7 @@ namespace SysAdm.Views
 
             // Sincronizar el estado marcado/desmarcado de los submenús individuales
             menuBalcax.IsEnabled = visible;
+            menuContpaqi.IsEnabled = visible;
         }
 
         /// <summary>
@@ -375,6 +390,7 @@ namespace SysAdm.Views
         private void menuVerToolBar_Click(object sender, RoutedEventArgs e)
         {
             tbBalcax.Visibility = menuBalcax.IsChecked ? Visibility.Visible : Visibility.Collapsed;
+            tbContpaqi.Visibility = menuContpaqi.IsChecked ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

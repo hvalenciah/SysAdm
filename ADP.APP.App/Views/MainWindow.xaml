@@ -60,6 +60,7 @@
                 <MenuItem x:Name="menuVerBarraHerramientas" Header="_Barra de herramientas" IsCheckable="True" IsChecked="True" Click="menuVerBarraHerramientas_Click"/>
                 <Separator/>
                 <MenuItem x:Name="menuBalcax" Header="_Balcax" IsCheckable="True" IsChecked="True" Click="menuVerToolBar_Click"/>
+                <MenuItem x:Name="menuContpaqi" Header="_Contpaqi" IsCheckable="True" IsChecked="True" Click="menuVerToolBar_Click"/>
                 <Separator/>
                 <MenuItem x:Name="menuVerTabSalida" Header="Panel de _Salida / Diagnóstico" IsCheckable="True" IsChecked="True" Click="menuVerTabSalida_Click"/>
                 <MenuItem x:Name="menuVerBarraEstado" Header="_Barra de estado" IsCheckable="True" IsChecked="True" Click="menuVerBarraEstado_Click"/>
@@ -73,7 +74,7 @@
         <!-- BARRA DE HERRAMIENTAS (TOOLSTRIP) -->
         <ToolBarTray x:Name="toolBarTrayPrincipal" DockPanel.Dock="Top" Background="#F5F5F5">
 
-            <!-- BARRA 1: ENTRADA Y SALIDA DE DATOS-->
+            <!-- BARRA 1: BALCAX -->
             <ToolBar x:Name="tbBalcax" Band="1" BandIndex="1">
                 <Button x:Name="btnBalcaxUsuario" ToolTip="Usuarios Balcax" Click="btnBalcaxUsuario_Click" Margin="2,0">
                     <StackPanel Orientation="Horizontal">
@@ -87,10 +88,26 @@
                         <TextBlock Text="ModuloVista" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnCompaqColaboradores" ToolTip="Colaboradores Compaq" Margin="2,0">
+                <Button x:Name="btnBalcaxPermisos" ToolTip="Permisos Balcax" Click="btnBalcaxPermisos_Click" Margin="2,0">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/assets/icons/users.png" Width="24" Height="24" Margin="0,0,4,0"/>
+                        <Image Source="/assets/icons/padlock.png" Width="24" Height="24" Margin="0,0,4,0"/>
+                        <TextBlock Text="Permisos" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
+
+            <!-- BARRA 1: CONTPAQI -->
+            <ToolBar x:Name="tbContpaqi" Band="1" BandIndex="1">
+                <Button x:Name="btnContpaqiColaborador" ToolTip="Colaboradores Contpaqi" Click="btnContpaqiColaborador_Click" Margin="2,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/assets/icons/handshake.png" Width="24" Height="24" Margin="0,0,4,0"/>
                         <TextBlock Text="Colaboradores" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnContpaqiVacaciones" ToolTip="Vacaciones Contpaqi" Click="btnContpaqiVacaciones_Click" Margin="2,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/assets/icons/beach.png" Width="24" Height="24" Margin="0,0,4,0"/>
+                        <TextBlock Text="Vacaciones" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </ToolBar>
