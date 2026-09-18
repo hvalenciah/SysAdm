@@ -18,7 +18,7 @@ namespace SysAdm
         {
             base.OnStartup(e);
 
-            string environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Staging";
+            string environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") ?? "Development";
 
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)

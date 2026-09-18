@@ -175,7 +175,12 @@ namespace SysAdm.Views
             
         }
 
-        private void btnContpaqiColaborador_Click(object sender, RoutedEventArgs e)
+        private void btnContpaqiTrabajador_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnContpaqiPlaza_Click(object sender, RoutedEventArgs e)
         {
             
         }

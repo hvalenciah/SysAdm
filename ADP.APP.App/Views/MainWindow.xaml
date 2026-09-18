@@ -101,10 +101,16 @@
 
             <!-- BARRA 1: CONTPAQI -->
             <ToolBar x:Name="tbContpaqi" Band="1" BandIndex="1">
-                <Button x:Name="btnContpaqiColaborador" ToolTip="Colaboradores Contpaqi" Click="btnContpaqiColaborador_Click" Margin="2,0">
+                <Button x:Name="btnContpaqiTrabajador" ToolTip="Trabajador Contpaqi" Click="btnContpaqiTrabajador_Click" Margin="2,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/assets/icons/handshake.png" Width="24" Height="24" Margin="0,0,4,0"/>
-                        <TextBlock Text="Colaboradores" VerticalAlignment="Center"/>
+                        <TextBlock Text="Trabajador" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="btnContpaqiPlaza" ToolTip="Plaza Contpaqi" Click="btnContpaqiPlaza_Click" Margin="2,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/assets/icons/document.png" Width="24" Height="24" Margin="0,0,4,0"/>
+                        <TextBlock Text="Plaza" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
                 <Button x:Name="btnContpaqiVacaciones" ToolTip="Vacaciones Contpaqi" Click="btnContpaqiVacaciones_Click" Margin="2,0">
