@@ -7,12 +7,15 @@
              d:DesignHeight="600" d:DesignWidth="840">
 
     <UserControl.Resources>
-        <!-- Botón de acción genérico -->
+
+        <!-- Botón de acción genérico con plantilla de icono mediante Tag -->
         <Style x:Key="BtnAccion" TargetType="Button">
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -21,7 +24,20 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="3"
                                 Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                
+                                <!-- Icono leído dinámicamente desde la propiedad Tag -->
+                                <TextBlock FontFamily="{StaticResource MaterialDesignIcons}"
+                                           Text="{TemplateBinding Tag}"
+                                           FontSize="15"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,6,0"/>
+
+                                <!-- Texto del botón -->
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -137,11 +153,25 @@
                              Padding="4,3" BorderBrush="#CCCCCC" KeyDown="TxtBusqueda_KeyDown"/>
                 </StackPanel>
 
-                <Button x:Name="btnLimpiar" Grid.Column="4" Content="Limpiar" Style="{StaticResource BtnLimpiar}"
-                        VerticalAlignment="Bottom" Height="26" Width="80" Click="BtnLimpiar_Click"/>
+                <Button x:Name="btnLimpiar" 
+                        Grid.Column="4" 
+                        Tag="cleaning_services"
+                        Content="Limpiar" 
+                        Style="{StaticResource BtnLimpiar}"
+                        VerticalAlignment="Bottom" 
+                        Height="26" 
+                        Width="80" 
+                        Click="BtnLimpiar_Click"/>
 
-                <Button x:Name="btnBuscar" Grid.Column="6" Content="🔎 Buscar" Style="{StaticResource BtnBuscar}"
-                        VerticalAlignment="Bottom" Height="26" Width="90" Click="BtnBuscar_Click"/>
+                <Button x:Name="btnBuscar" 
+                        Grid.Column="6" 
+                        Tag="search"
+                        Content="Buscar"
+                        Style="{StaticResource BtnBuscar}"
+                        VerticalAlignment="Bottom" 
+                        Height="26" 
+                        Width="90" 
+                        Click="BtnBuscar_Click"/>
             </Grid>
         </GroupBox>
 
@@ -166,7 +196,6 @@
                 HorizontalScrollBarVisibility="Auto"
                 VerticalScrollBarVisibility="Auto">
 
-            <!-- Estilo para mostrar el número centrado en el RowHeader -->
             <DataGrid.RowHeaderStyle>
                 <Style TargetType="DataGridRowHeader">
                     <Setter Property="Width" Value="35"/>
@@ -226,37 +255,47 @@
                                VerticalAlignment="Center" FontSize="12"
                                Foreground="#333333" Margin="0,0,10,0"/>
 
+                    <!-- Botón Agregar -->
                     <Button x:Name="btnAgregar"
-                            Content="➕ Agregar"
                             Style="{StaticResource BtnAgregar}"
+                            Tag="add"
+                            Content="Agregar"
                             Margin="0,0,8,0"
                             Width="130"
                             Click="BtnAgregar_Click"/>
 
+                    <!-- Botón Editar -->
                     <Button x:Name="btnActualizar"
-                            Content="📝 Editar"
                             Style="{StaticResource BtnActualizar}"
+                            Tag="edit"
+                            Content="Editar"
                             Margin="0,0,8,0"
                             Width="130"
                             Click="BtnActualizar_Click"/>
 
+                    <!-- Botón Eliminar -->
                     <Button x:Name="btnEliminar"
-                            Content="🗑 Eliminar"
                             Style="{StaticResource BtnEliminar}"
+                            Tag="delete"
+                            Content="Eliminar"
                             Margin="0,0,8,0"
                             Width="130"
                             Click="BtnEliminar_Click"/>
 
+                    <!-- Botón Permiso -->
                     <Button x:Name="btnPermiso"
-                            Content="🗝️ Permiso"
                             Style="{StaticResource BtnPermiso}"
+                            Tag="vpn_key"
+                            Content="Permiso"
                             Margin="0,0,8,0"
                             Width="130"
                             Click="BtnPermiso_Click"/>
 
+                    <!-- Botón Contraseña -->
                     <Button x:Name="btnContrasena"
-                            Content="🔒 Contraseña"
                             Style="{StaticResource BtnContrasena}"
+                            Tag="lock"
+                            Content="Contraseña"
                             Width="130"
                             Click="BtnContrasena_Click"/>
                 </StackPanel>

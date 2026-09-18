@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:SysAdm.Views"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Definición de la fuente de iconos como recurso global -->
+        <FontFamily x:Key="MaterialDesignIcons">pack://application:,,,/assets/fonts/MaterialIcons/#Material Icons</FontFamily>
     </Application.Resources>
 </Application>

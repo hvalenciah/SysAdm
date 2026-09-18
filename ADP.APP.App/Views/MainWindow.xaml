@@ -31,6 +31,9 @@
             <Setter Property="BorderBrush" Value="#CCCCCC"/>
             <Setter Property="BorderThickness" Value="0,0,1,1"/>
         </Style>
+
+        <!-- Definición de la fuente como recurso global -->
+        <FontFamily x:Key="MaterialDesignIcons">pack://application:,,,/assets/fonts/MaterialIcons/#Material Icons</FontFamily>
     </Window.Resources>
 
     <DockPanel LastChildFill="True">
