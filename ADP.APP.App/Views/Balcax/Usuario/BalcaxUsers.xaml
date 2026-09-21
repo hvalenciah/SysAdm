@@ -137,8 +137,8 @@
 
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Buscar por:" FontSize="11" Foreground="#555555" Margin="0,0,0,2"/>
-                    <ComboBox x:Name="cmbFiltro" Width="120" Height="26" SelectedIndex="0" VerticalContentAlignment="Center">
-                        <ComboBoxItem Content="Todo"/>
+                    <ComboBox x:Name="cmbFiltro" Width="170" Height="26" SelectedIndex="0" VerticalContentAlignment="Center">
+                        <ComboBoxItem Content="Todos los usuarios"/>
                         <ComboBoxItem Content="Id"/>
                         <ComboBoxItem Content="Nombre completo"/>
                         <ComboBoxItem Content="Correo"/>
@@ -233,7 +233,15 @@
                 <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}" Width="200"/>
                 <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="250"/>
                 <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}" Width="100"/>
-                <DataGridTextColumn Header="Habilitado" Binding="{Binding Habilitado}" Width="80"/>
+                <DataGridCheckBoxColumn Header="Habilitado" Binding="{Binding Habilitado}" Width="80">
+                    <DataGridCheckBoxColumn.ElementStyle>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="IsHitTestVisible" Value="False"/> <!-- Deshabilita la interacción directa en la celda -->
+                        </Style>
+                    </DataGridCheckBoxColumn.ElementStyle>
+                </DataGridCheckBoxColumn>
                 <DataGridTextColumn Header="Token" Binding="{Binding Token}" Width="500"/>
                 <DataGridTextColumn Header="Contraseña" Binding="{Binding Contrasena}" Width="500"/>
                 <DataGridTextColumn Header="Avatar" Binding="{Binding Avatar}" Width="100"/>

@@ -177,16 +177,17 @@ namespace SysAdm.Views
 
         private void btnContpaqiTrabajador_Click(object sender, RoutedEventArgs e)
         {
-            
+            AbrirOActivarPestana<UserControls.CONTPAQiTrabajador>("Trabajador CONTPAQi", () => new UserControls.CONTPAQiTrabajador(this));
         }
 
         private void btnContpaqiPlaza_Click(object sender, RoutedEventArgs e)
         {
-            
+            AbrirOActivarPestana<UserControls.CONTPAQiPlaza>("Plaza CONTPAQi", () => new UserControls.CONTPAQiPlaza(this));
         }
 
         private void btnContpaqiVacaciones_Click(object sender, RoutedEventArgs e)
         {
+            AbrirOActivarPestana<UserControls.CONTPAQiVacaciones>("Vacaciones CONTPAQi", () => new UserControls.CONTPAQiVacaciones(this));
         }
 
         private void btnSalir_Click(object sender, RoutedEventArgs e)
