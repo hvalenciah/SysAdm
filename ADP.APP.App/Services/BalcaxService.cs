@@ -476,5 +476,53 @@ namespace SysAdm.Services
         }
 
         #endregion
+
+        #region PERMISOS
+        
+        /// <summary>
+        /// Obtiene todos los Trabajadores-Usuarios.
+        /// GET /Balcan/TrabajadorUsuario
+        /// </summary>
+        public async Task<List<TrabajadorUsuarioDTO>> ObtenerTrabajadoresUsuariosAsync()
+        {
+            var response = await _httpClient.GetFromJsonAsync<BalcaxApiResponse<List<TrabajadorUsuarioDTO>>>("Balcan/TrabajadorUsuario", _jsonOptions);
+            return response?.Data ?? new List<TrabajadorUsuarioDTO>();
+        }
+
+        /// <summary>
+        /// Busca un Trabajador-Usuario por IdUsuario.
+        /// GET /Balcan/TrabajadorUsuario/Usuario/{id}
+        /// </summary>
+        public async Task<List<TrabajadorUsuarioDTO>> BuscarTrabajadorUsuarioPorIdAsync(int idUsuario)
+        {
+            // Se mapea la respuesta a un objeto único
+            var response = await _httpClient.GetFromJsonAsync<BalcaxApiResponse<TrabajadorUsuarioDTO>>($"Balcan/TrabajadorUsuario/Usuario/{idUsuario}", _jsonOptions);
+
+            if (response?.Data != null)
+            {
+                return new List<TrabajadorUsuarioDTO> { response.Data };
+            }
+
+            return new List<TrabajadorUsuarioDTO>();
+        }
+
+        /// <summary>
+        /// Busca Trabajadores-Usuarios por Código de Trabajador.
+        /// GET /Balcan/TrabajadorUsuario/Trabajador/{codigo_trabajador}
+        /// </summary>
+        public async Task<List<TrabajadorUsuarioDTO>> BuscarTrabajadorUsuarioPorCodigoAsync(string codigoTrabajador)
+        {
+            // Se mapea la respuesta a un objeto único
+            var response = await _httpClient.GetFromJsonAsync<BalcaxApiResponse<TrabajadorUsuarioDTO>>($"Balcan/TrabajadorUsuario/Trabajador/{codigoTrabajador}", _jsonOptions);
+
+            if (response?.Data != null)
+            {
+                return new List<TrabajadorUsuarioDTO> { response.Data };
+            }
+
+            return new List<TrabajadorUsuarioDTO>();
+        }
+
+        #endregion
     }
 }

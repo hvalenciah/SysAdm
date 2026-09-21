@@ -172,7 +172,7 @@ namespace SysAdm.Views
 
         private void btnBalcaxPermisos_Click(object sender, RoutedEventArgs e)
         {
-            
+            AbrirOActivarPestana<UserControls.Permisos>("Permisos Balcax", () => new UserControls.Permisos(this));
         }
 
         private void btnContpaqiTrabajador_Click(object sender, RoutedEventArgs e)
