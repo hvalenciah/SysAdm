@@ -48,18 +48,6 @@ namespace SysAdm.Views.UserControls
         public async void CargarTrabajadoresUsuarios()
         {
             if (_servicio == null) return;
-
-            _parent.LogOutput("Consultando lista completa de Trabajadores / Usuarios...");
-            try
-            {
-                var lista = await _servicio.ObtenerTrabajadoresUsuariosAsync();
-                dgvTrabajadoresUsuarios.ItemsSource = lista;
-                _parent.LogOutput($"Registros cargados: {lista.Count} registro(s).");
-            }
-            catch (Exception ex)
-            {
-                _parent.LogError("ERR_BALCAX_GET", $"No se pudo obtener la lista de trabajadores/usuarios: {ex.Message}");
-            }
         }
 
         private async void BtnBuscar_Click(object sender, RoutedEventArgs e)
@@ -76,7 +64,7 @@ namespace SysAdm.Views.UserControls
                 return;
             }
 
-            _parent.LogOutput($"Buscando Trabajador/Usuario ({filtro}: '{valor}')...");
+            _parent.LogOutput($"Buscando TrabajadorUsuario ({filtro}: '{valor}')...");
             try
             {
                 List<TrabajadorUsuarioDTO> resultado = new();
@@ -99,10 +87,8 @@ namespace SysAdm.Views.UserControls
                         resultado = await _servicio.BuscarTrabajadorUsuarioPorCodigoAsync(valor);
                         break;
 
-                    case "Todos":
-                    default:
-                        // Solo consultará a la API todos los usuarios cuando explícitamente se presione Buscar con la opción "Todos"
-                        resultado = await _servicio.ObtenerTrabajadoresUsuariosAsync();
+                    case "Nombre Trabajador":
+                        resultado = await _servicio.ObtenerTrabajadoresUsuariosPorNombreAsync(valor);
                         break;
                 }
 

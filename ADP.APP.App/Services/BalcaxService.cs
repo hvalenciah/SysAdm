@@ -478,16 +478,6 @@ namespace SysAdm.Services
         #endregion
 
         #region PERMISOS
-        
-        /// <summary>
-        /// Obtiene todos los Trabajadores-Usuarios.
-        /// GET /Balcan/TrabajadorUsuario
-        /// </summary>
-        public async Task<List<TrabajadorUsuarioDTO>> ObtenerTrabajadoresUsuariosAsync()
-        {
-            var response = await _httpClient.GetFromJsonAsync<BalcaxApiResponse<List<TrabajadorUsuarioDTO>>>("Balcan/TrabajadorUsuario", _jsonOptions);
-            return response?.Data ?? new List<TrabajadorUsuarioDTO>();
-        }
 
         /// <summary>
         /// Busca un Trabajador-Usuario por IdUsuario.
@@ -521,6 +511,16 @@ namespace SysAdm.Services
             }
 
             return new List<TrabajadorUsuarioDTO>();
+        }
+
+        /// <summary>
+        /// Obtiene todos los Trabajadores-Usuarios.
+        /// GET /Balcan/TrabajadorUsuario
+        /// </summary>
+        public async Task<List<TrabajadorUsuarioDTO>> ObtenerTrabajadoresUsuariosPorNombreAsync(string nombreTrabajador)
+        {
+            var response = await _httpClient.GetFromJsonAsync<BalcaxApiResponse<List<TrabajadorUsuarioDTO>>>($"Balcan/TrabajadorUsuario/Trabajador/by-fullname/{nombreTrabajador}", _jsonOptions);
+            return response?.Data ?? new List<TrabajadorUsuarioDTO>();
         }
 
         #endregion

@@ -60,12 +60,20 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
 
-        <Style x:Key="BtnPermiso" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+        <Style x:Key="BtnPermisoVista" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
             <Setter Property="Background" Value="#0078D4"/>
             <Setter Property="BorderBrush" Value="#0078D4"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
+
+        <Style x:Key="BtnPermisoEnlace" TargetType="Button" BasedOn="{StaticResource BtnAccion}">
+            <Setter Property="Background" Value="#0078D4"/>
+            <Setter Property="BorderBrush" Value="#0078D4"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
     </UserControl.Resources>
 
     <Grid>
@@ -92,9 +100,9 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Buscar por:" FontSize="11" Foreground="#555555" Margin="0,0,0,2"/>
                     <ComboBox x:Name="cmbFiltro" Width="170" Height="26" SelectedIndex="0" VerticalContentAlignment="Center">
-                        <ComboBoxItem Content="Todos"/>
                         <ComboBoxItem Content="ID Usuario"/>
                         <ComboBoxItem Content="Código Trabajador"/>
+                        <ComboBoxItem Content="Nombre Trabajador"/>
                     </ComboBox>
                 </StackPanel>
 
@@ -208,17 +216,25 @@
                 BorderThickness="0,1,0,0" Padding="8" Margin="6">
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock Text="Acciones:" FontWeight="SemiBold"
+                    <TextBlock Text="Permisos:" FontWeight="SemiBold"
                                VerticalAlignment="Center" FontSize="12"
                                Foreground="#333333" Margin="0,0,10,0"/>
 
                     <!-- Botón Permiso -->
-                    <Button x:Name="btnPermiso"
-                            Style="{StaticResource BtnPermiso}"
+                    <Button x:Name="btnPermisoVista"
+                            Style="{StaticResource BtnPermisoVista}"
                             Tag="vpn_key"
-                            Content="Permiso a Vista"
-                            Width="160"
+                            Content="Vista"
+                            Width="100"
+                            Margin="0,0,10,0"
                             Click="BtnPermiso_Click"/>
+
+                    <Button x:Name="btnPermisoEnlace"
+                            Style="{StaticResource BtnPermisoEnlace}"
+                            Tag="compare_arrows"
+                            Content="Enlace"
+                            Width="100"/>
+                            
                 </StackPanel>
             </Grid>
         </Border>
